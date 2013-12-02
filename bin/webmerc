@@ -12,13 +12,13 @@ var projectedPoint;
 var projectedPoints;
 
 program
-  .version('0.0.3')
-  .option('-o, --original', '')
-  .option('-m, --tometer [tometer]', '')
-  .option('-g, --togeo [togeo]', '')
+  .version('0.0.4')
+  .option('-e, --extent', 'Web Mercator Extent')
+  .option('-m, --tometer [tometer]', 'Coordinate to Meter')
+  .option('-g, --togeo [togeo]', 'Meter to Coordinate')
   .parse(process.argv);
 
-if (program.original) {
+if (program.extent) {
   console.log(new Map.Rect(-20037508.34, -20037508.34, 40075016.68, 40075016.68));
 } else if (program.tometer && typeof program.tometer !== 'boolean') {
   coordinates = program.tometer.split(/,/);
