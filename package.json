@@ -1,8 +1,8 @@
 {
   "name": "webmerc",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Webメルカトル関係のコマンドラインツールです。",
-  "main": "lib/webmerc",
+  "bin": "bin/webmerc",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
