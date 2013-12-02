@@ -3,13 +3,47 @@
 'use strict';
 
 var program = require('commander');
+var Map = require('../lib/Map');
+
+var map;
+var coordinate;
+var coordinates;
+var projectedPoint;
+var projectedPoints;
 
 program
-  .version('0.0.2')
+  .version('0.0.3')
   .option('-o, --original', '')
+  .option('-m, --tometer [tometer]', '')
+  .option('-g, --togeo [togeo]', '')
   .parse(process.argv);
 
 if (program.original) {
-  console.log('-20037508.34, -20037508.34, 40075016.68, 40075016.68');
+  console.log(new Map.Rect(-20037508.34, -20037508.34, 40075016.68, 40075016.68));
+} else if (program.tometer && typeof program.tometer !== 'boolean') {
+  coordinates = program.tometer.split(/,/);
+  if (coordinates.length < 2) return;
+   
+  map = new Map();
+  projectedPoint = map.coordinateToProjectedPoint(new Map.Coordinate(coordinates[0], coordinates[1]));
+  console.log(projectedPoint); 
+} else if (program.togeo && typeof program.togeo !== 'boolean') {
+  projectedPoints = program.togeo.split(/,/);
+  if (projectedPoints.length < 2) return;
+
+  map = new Map();
+  coordinate = map.projectedPointToCoordinate(new Map.ProjectedPoint(projectedPoints[0], projectedPoints[1]));
+  console.log(coordinate);
+
 }
 
+
+
+//var map = new Map();
+//map.zoom = 15;
+
+//var point = map.coordinateToPixel(new Map.Coordinate(35.3, 139.3));
+//console.log(point); // Point {x: 7440229.262674059, y: 3314159.882238767}
+
+//var coordinate = map.pixelToCoordinate(point);
+//console.log(coordinate); // Coordinate {latitude: 139.3, longitude: 35.29999999999999}
