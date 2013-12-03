@@ -16,7 +16,7 @@ var pixelZooms;
 var tileIndexX, tileIndexY;
 
 program
-  .version('0.0.5')
+  .version('0.0.6')
   .option('-e, --extent', 'Web Mercator Extent')
   .option('-m, --c2m [c2m]', 'Coordinate to Meter')
   .option('-n, --m2c [m2c]', 'Meter to Coordinate')
