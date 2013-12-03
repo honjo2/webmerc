@@ -13,14 +13,16 @@ var projectedPoints;
 var coordinateZooms;
 var pixel;
 var pixelZooms;
+var tileIndexX, tileIndexY;
 
 program
-  .version('0.0.4')
+  .version('0.0.5')
   .option('-e, --extent', 'Web Mercator Extent')
   .option('-m, --c2m [c2m]', 'Coordinate to Meter')
   .option('-n, --m2c [m2c]', 'Meter to Coordinate')
   .option('-p, --c2p [c2p]', 'Coordinate to Pixel')
   .option('-c, --p2c [p2c]', 'Pixel to Coordinate')
+  .option('-i, --tileindex [tileindex]', 'Calculate the TileIndex')
   .parse(process.argv);
 
 if (program.extent) {
@@ -50,6 +52,7 @@ if (program.extent) {
   map.zoom = coordinateZooms[2];
   pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
   console.log(pixel);
+
 } else if (program.p2c && typeof program.p2c !== 'boolean') {
   pixelZooms = program.p2c.split(/,/);
   if (pixelZooms.length < 3) return;
@@ -58,15 +61,18 @@ if (program.extent) {
   map.zoom = pixelZooms[2];
   coordinate = map.pixelToCoordinate(new Map.Point(pixelZooms[0], pixelZooms[1]));
   console.log(coordinate);
+
+} else if (program.tileindex && typeof program.tileindex !== 'boolean') {
+  coordinateZooms = program.tileindex.split(/,/);
+  if (coordinateZooms.length < 3) return;
+
+  map = new Map();
+  map.zoom = coordinateZooms[2];
+
+  pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
+
+  tileIndexX = parseInt(pixel.x / 256, 10);
+  tileIndexY = parseInt(pixel.y / 256, 10);
+  console.log('%d/%d/%d', coordinateZooms[2], tileIndexX, tileIndexY);
+
 }
-
-
-
-//var map = new Map();
-//map.zoom = 15;
-
-//var point = map.coordinateToPixel(new Map.Coordinate(35.3, 139.3));
-//console.log(point); // Point {x: 7440229.262674059, y: 3314159.882238767}
-
-//var coordinate = map.pixelToCoordinate(point);
-//console.log(coordinate); // Coordinate {latitude: 139.3, longitude: 35.29999999999999}
