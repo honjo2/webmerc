@@ -1,6 +1,6 @@
 {
   "name": "webmerc",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Webメルカトル関係のコマンドラインツールです。",
   "bin": "bin/webmerc",
   "scripts": {

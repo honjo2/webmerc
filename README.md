@@ -15,7 +15,7 @@
 
 ```sh
 % webmerc --p2c 7449549.938230911,3302710.99871282,15
-{ latitude: 139.7, longitude: 35.7 }
+{ latitude: 35.7, longitude: 139.7 }
 ```
 
 ### 緯度経度からメートルを求める
@@ -29,7 +29,7 @@
 
 ```sh
 % webmerc --m2c 15551332.863820316,4259419.96554792
-{ latitude: 139.7, longitude: 35.7 }
+{ latitude: 35.7, longitude: 139.7 }
 ```
 
 ### 緯度経度からタイルインデックスを求める
@@ -68,7 +68,7 @@
 
 ```sh
 % webmerc --translate 35.7,139.7,15.5,100,50
-{ latitude: 139.703034, longitude: 35.698767 }
+{ latitude: 35.698767, longitude: 139.703034 }
 ```
 
 # npmモジュール作成手順
