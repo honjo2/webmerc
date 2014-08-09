@@ -31,7 +31,7 @@ if (program.extent) {
 } else if (program.c2m && typeof program.c2m !== 'boolean') {
   coordinates = program.c2m.split(/,/);
   if (coordinates.length < 2) return;
-   
+
   map = new Map();
   projectedPoint = map.coordinateToProjectedPoint(new Map.Coordinate(coordinates[0], coordinates[1]));
   console.log(projectedPoint);
@@ -64,15 +64,28 @@ if (program.extent) {
 
 } else if (program.tileindex && typeof program.tileindex !== 'boolean') {
   coordinateZooms = program.tileindex.split(/,/);
-  if (coordinateZooms.length < 3) return;
+  if (coordinateZooms.length === 2) {
+    map = new Map();
+    for (var i = 0; i < 23; i++) {
+      map.zoom = i;
 
-  map = new Map();
-  map.zoom = coordinateZooms[2];
+      pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
 
-  pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
+      tileIndexX = parseInt(pixel.x / 256, 10);
+      tileIndexY = parseInt(pixel.y / 256, 10);
+      console.log('%d/%d/%d', i, tileIndexX, tileIndexY);
+    }
 
-  tileIndexX = parseInt(pixel.x / 256, 10);
-  tileIndexY = parseInt(pixel.y / 256, 10);
-  console.log('%d/%d/%d', coordinateZooms[2], tileIndexX, tileIndexY);
+  } else if (coordinateZooms.length === 3) {
 
+    map = new Map();
+    map.zoom = coordinateZooms[2];
+
+    pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
+
+    tileIndexX = parseInt(pixel.x / 256, 10);
+    tileIndexY = parseInt(pixel.y / 256, 10);
+    console.log('%d/%d/%d', coordinateZooms[2], tileIndexX, tileIndexY);
+
+  }
 }
