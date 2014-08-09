@@ -14,15 +14,17 @@ var coordinateZooms;
 var pixel;
 var pixelZooms;
 var tileIndexX, tileIndexY;
+var coordinateZoomTranslate;
 
 program
-  .version('0.0.6')
+  .version('0.0.7')
   .option('-e, --extent', 'Web Mercator Extent')
   .option('-m, --c2m [c2m]', 'Coordinate to Meter')
   .option('-n, --m2c [m2c]', 'Meter to Coordinate')
   .option('-p, --c2p [c2p]', 'Coordinate to Pixel')
   .option('-c, --p2c [p2c]', 'Pixel to Coordinate')
   .option('-i, --tileindex [tileindex]', 'Calculate the TileIndex')
+  .option('-t, --translate [translate]', 'Translate')
   .parse(process.argv);
 
 if (program.extent) {
@@ -88,4 +90,15 @@ if (program.extent) {
     console.log('%d/%d/%d', coordinateZooms[2], tileIndexX, tileIndexY);
 
   }
+} else if(program.translate && typeof program.translate !== 'boolean') {
+  coordinateZoomTranslate = program.translate.split(/,/);
+  if (coordinateZoomTranslate.length < 5) return;
+
+  map = new Map();
+  map.zoom = coordinateZoomTranslate[2];
+  pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZoomTranslate[0], coordinateZoomTranslate[1]));
+  pixel.x += parseFloat(coordinateZoomTranslate[3]);
+  pixel.y += parseFloat(coordinateZoomTranslate[4]);
+  coordinate = map.pixelToCoordinate(pixel);
+  console.log(coordinate);
 }
