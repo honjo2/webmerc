@@ -18,7 +18,7 @@ var coordinateZoomTranslate;
 var zoomxy;
 
 program
-  .version('0.1.0')
+  .version('0.1.1')
   .option('-e, --extent', 'Web Mercator Extent')
   .option('-m, --c2m [c2m]', 'Coordinate to Meter: -m latitude,longitude')
   .option('-n, --m2c [m2c]', 'Meter to Coordinate: -n meterX,meterY')
@@ -46,7 +46,7 @@ if (program.extent) {
 
   map = new Map();
   coordinate = map.projectedPointToCoordinate(new Map.ProjectedPoint(projectedPoints[0], projectedPoints[1]));
-  console.log(coordinate);
+  console.log(coordinate.latitude + ',' + coordinate.longitude);
 
 } else if (program.c2p && typeof program.c2p !== 'boolean') {
   coordinateZooms = program.c2p.split(/,/);
@@ -64,7 +64,7 @@ if (program.extent) {
   map = new Map();
   map.zoom = pixelZooms[2];
   coordinate = map.pixelToCoordinate(new Map.Point(pixelZooms[0], pixelZooms[1]));
-  console.log(coordinate);
+  console.log(coordinate.latitude + ',' + coordinate.longitude);
 
 } else if (program.t2c && typeof program.t2c !== 'boolean') {
   zoomxy = program.t2c.split('/');
@@ -84,7 +84,7 @@ if (program.extent) {
 
   coordinate = map.pixelToCoordinate(new Map.Point(x, y));
 
-  console.log(coordinate);
+  console.log(coordinate.latitude + ',' + coordinate.longitude);
 
 } else if (program.tileindex && typeof program.tileindex !== 'boolean') {
   coordinateZooms = program.tileindex.split(/,/);
@@ -122,5 +122,5 @@ if (program.extent) {
   pixel.x += parseFloat(coordinateZoomTranslate[3]);
   pixel.y += parseFloat(coordinateZoomTranslate[4]);
   coordinate = map.pixelToCoordinate(pixel);
-  console.log(coordinate);
+  console.log(coordinate.latitude + ',' + coordinate.longitude);
 }
