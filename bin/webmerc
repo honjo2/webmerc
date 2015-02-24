@@ -14,11 +14,12 @@ var coordinateZooms;
 var pixel;
 var pixelZooms;
 var tileIndexX, tileIndexY;
+var relativeX, relativeY;
 var coordinateZoomTranslate;
 var zoomxy;
 
 program
-  .version('0.1.1')
+  .version('0.2')
   .option('-e, --extent', 'Web Mercator Extent')
   .option('-m, --c2m [c2m]', 'Coordinate to Meter: -m latitude,longitude')
   .option('-n, --m2c [m2c]', 'Meter to Coordinate: -n meterX,meterY')
@@ -95,21 +96,27 @@ if (program.extent) {
 
       pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
 
+      relativeX = parseInt(pixel.x % 256, 10);
+      relativeY = parseInt(pixel.y % 256, 10);
+
       tileIndexX = parseInt(pixel.x / 256, 10);
       tileIndexY = parseInt(pixel.y / 256, 10);
-      console.log('%d/%d/%d', i, tileIndexX, tileIndexY);
+      console.log('%d/%d/%d %d,%d', i, tileIndexX, tileIndexY, relativeX, relativeY);
     }
 
   } else if (coordinateZooms.length === 3) {
-
     map = new Map();
     map.zoom = coordinateZooms[2];
 
     pixel = map.coordinateToPixel(new Map.Coordinate(coordinateZooms[0], coordinateZooms[1]));
 
+    relativeX = parseInt(pixel.x % 256, 10);
+    relativeY = parseInt(pixel.y % 256, 10);
+
     tileIndexX = parseInt(pixel.x / 256, 10);
     tileIndexY = parseInt(pixel.y / 256, 10);
-    console.log('%d/%d/%d', coordinateZooms[2], tileIndexX, tileIndexY);
+
+    console.log('%d/%d/%d %d,%d', coordinateZooms[2], tileIndexX, tileIndexY, relativeX, relativeY);
 
   }
 } else if(program.translate && typeof program.translate !== 'boolean') {
